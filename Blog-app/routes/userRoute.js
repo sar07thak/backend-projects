@@ -3,6 +3,7 @@ const userRouter = Router();
 const user = require("../models/user");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const { createToken } = require("../utils/authentication");
 
 userRouter.get("/signup", (req, res) => {
   res.status(200).render("signup");
@@ -32,18 +33,27 @@ userRouter.post("/signup", async (req, res) => {
 
 userRouter.post("/signin", async (req, res) => {
   try {
-    const eid = await user.findOne({ email : req.body.email });
-    if( !(eid)) throw new Error("user not found ");
+    const existingUser = await user.findOne({ email: req.body.email });
+    if (!existingUser) throw new Error("user not found ");
 
-    
-    const checkPass = await eid.verifyUser(req.body.password);
+    const checkPass = await existingUser.verifyUser(req.body.password);
     if (!checkPass) throw new Error("invalid password");
-    
-     res.status(200).redirect("/");
-     
+
+    const token = createToken(existingUser);
+    // console.log(token);  // ! for printing a token
+    // res.cookie("token", token);
+
+    res.status(200).cookie("token", token).redirect("/");
   } catch (err) {
-    res.status(404).send("Errpr : " + err.message);
+    res.status(404).render("signin", {
+      error: "incorrect email or password",
+    });
   }
+});
+
+userRouter.get("/logout", (req, res) => {
+  res.clearCookie("token"); // clear the auth token
+  res.redirect("/");        // redirect to homepage or signin
 });
 
 module.exports = userRouter;

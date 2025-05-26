@@ -8,38 +8,55 @@
       <input id="menu-toggle" type="checkbox" class="hidden" />
       <label for="menu-toggle" class="cursor-pointer md:hidden block">
         <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
-          <path
-            d="M4 6h16M4 12h16M4 18h16"
-          />
+          <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </label>
 
       <!-- Menu items -->
       <div class="hidden md:flex space-x-6 items-center">
         <a href="#" class="hover:text-gray-300">Home</a>
+        <% if ( locals.user) { %>
         <a href="#" class="hover:text-gray-300">Add-Blog</a>
-        <!-- Dropdown -->
-        <div class="relative group">
-          <span class="cursor-pointer hover:text-gray-300">Sarthak</span>
-          <ul class="absolute hidden group-hover:block bg-white text-black mt-2 rounded shadow-md w-44 z-50">
-            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Log-out</a></li>
-        </div>
+        <a href="/user/logout" class="hover:text-gray-300">Log-Out</a>
+
+        <% } else { %>
+        <a href="/user/signup" class="hover:text-gray-300">Create Account </a>
+        <a href="/user/signin" class="hover:text-gray-300">signin </a>
+        <% } %>
       </div>
     </div>
 
     <!-- Mobile Menu -->
     <div class="md:hidden">
-      <ul id="menu" class="hidden flex-col mt-4 space-y-2" style="display: none;">
+      <ul
+        id="menu"
+        class="hidden flex-col mt-4 space-y-2"
+        style="display: none"
+      >
         <li><a href="#" class="block py-2 hover:text-gray-300">Home</a></li>
         <li><a href="#" class="block py-2 hover:text-gray-300">Features</a></li>
         <li><a href="#" class="block py-2 hover:text-gray-300">Pricing</a></li>
         <li class="relative">
           <details class="group">
-            <summary class="cursor-pointer py-2 hover:text-gray-300">Dropdown link</summary>
-            <ul class="pl-4 text-black bg-white rounded shadow-md mt-1 space-y-1">
-              <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Action</a></li>
-              <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Another action</a></li>
-              <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Something else here</a></li>
+            <summary class="cursor-pointer py-2 hover:text-gray-300">
+              Dropdown link
+            </summary>
+            <ul
+              class="pl-4 text-black bg-white rounded shadow-md mt-1 space-y-1"
+            >
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Action</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Another action</a
+                >
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100"
+                  >Something else here</a
+                >
+              </li>
             </ul>
           </details>
         </li>
@@ -54,3 +71,12 @@
     }
   </style>
 </nav>
+
+<% if (locals.error) { -%>
+<div
+  class="bg-red-300 border border-gray-300 text-gray-800 px-4 py-3 rounded relative"
+  role="alert"
+>
+  <%- locals.error %>
+</div>
+<% } -%>

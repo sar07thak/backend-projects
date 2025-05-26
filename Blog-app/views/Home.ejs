@@ -7,5 +7,6 @@
 </head>
 <body>
     <%- include('./partials/nav') %>
+    <%= user ? JSON.stringify(user) : "No user found" %>
 </body>
 </html>
