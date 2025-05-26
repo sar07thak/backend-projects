@@ -1,0 +1,56 @@
+<nav class="bg-[#222] text-white">
+  <div class="max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex gap-10 items-center h-16">
+      <!-- Logo -->
+      <a href="#" class="text-xl font-semibold">Blogify</a>
+
+      <!-- Mobile toggle button -->
+      <input id="menu-toggle" type="checkbox" class="hidden" />
+      <label for="menu-toggle" class="cursor-pointer md:hidden block">
+        <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+          <path
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </label>
+
+      <!-- Menu items -->
+      <div class="hidden md:flex space-x-6 items-center">
+        <a href="#" class="hover:text-gray-300">Home</a>
+        <a href="#" class="hover:text-gray-300">Add-Blog</a>
+        <!-- Dropdown -->
+        <div class="relative group">
+          <span class="cursor-pointer hover:text-gray-300">Sarthak</span>
+          <ul class="absolute hidden group-hover:block bg-white text-black mt-2 rounded shadow-md w-44 z-50">
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Log-out</a></li>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="md:hidden">
+      <ul id="menu" class="hidden flex-col mt-4 space-y-2" style="display: none;">
+        <li><a href="#" class="block py-2 hover:text-gray-300">Home</a></li>
+        <li><a href="#" class="block py-2 hover:text-gray-300">Features</a></li>
+        <li><a href="#" class="block py-2 hover:text-gray-300">Pricing</a></li>
+        <li class="relative">
+          <details class="group">
+            <summary class="cursor-pointer py-2 hover:text-gray-300">Dropdown link</summary>
+            <ul class="pl-4 text-black bg-white rounded shadow-md mt-1 space-y-1">
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Action</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Another action</a></li>
+              <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Something else here</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <style>
+    /* Pure CSS toggle functionality */
+    #menu-toggle:checked ~ .md\:hidden #menu {
+      display: flex !important;
+    }
+  </style>
+</nav>
