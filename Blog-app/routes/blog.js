@@ -37,7 +37,7 @@ blogRouter.post("/add-new", upload.single("coverImage"), async (req, res) => {
       coverImageURL: `/uploads/${req.file.filename}`,
     });
 
-    console.log(req.body)
+    console.log(req.body);
     // res.redirect(`/blog/${blog._id}`);
     res.redirect("/");
   } catch (err) {
@@ -45,5 +45,35 @@ blogRouter.post("/add-new", upload.single("coverImage"), async (req, res) => {
     res.status(500).send("Something went wrong.");
   }
 });
+
+blogRouter.get("/:_id", async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params._id).populate("createdBy"); // ? here we find the blog with id 
+    console.log("Blog" , blog );
+    if (!blog) {
+      return res.status(404).send("Blog not found");
+    }
+    res.render("blogView", {
+      blog,
+      user: req.user,
+    });
+  } catch (error) {
+    console.error("Error fetching blog:", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+blogRouter.delete("/:_id", async (req, res) => {
+  try {
+    const dltBlog = await Blog.findByIdAndDelete(req.params._id);
+
+    res.status(200).redirect("/");
+  } catch (err) {
+    console.error("Error fetching blog:", +  error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
 
 module.exports = blogRouter;

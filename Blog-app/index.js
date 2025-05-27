@@ -12,6 +12,7 @@ const {
   checkForAuthenticationCookie,
 } = require("./middlewares/authentication");
 
+const methodOverride = require("method-override");
 const app = express();
 
 // ✅ Set EJS as view engine and set views path
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(cookieParser()); // Must be before auth middleware
 app.use(checkForAuthenticationCookie("token")); // Sets req.user if token is valid
 app.use(express.static(path.resolve('./public')));
+app.use(methodOverride("_method"));
 
 // ✅ Routes
 app.use("/user", userRouter);

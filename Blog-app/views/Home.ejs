@@ -8,37 +8,43 @@
   <body>
     <%- include('./partials/nav') %>
     <!-- <%= user ? JSON.stringify(blogs) : "No user found" %> -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-  <% blogs.forEach(blog => { %>
-    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <!-- Image container with fixed aspect ratio (16:9) -->
-      <div class="relative pt-[56.25%] overflow-hidden">
-        <img 
-          class="absolute top-0 left-0 w-full h-full object-cover"
-          src="<%=blog.coverImageURL %>" 
-          alt="<%=blog.title %>"
-        >
-      </div>
-      
-      <!-- Card content -->
-      <div class="p-4">
-        <h3 class="font-bold text-lg mb-2 line-clamp-2"><%=blog.title %></h3>
-        <p class="text-gray-600 text-sm mb-4 line-clamp-3"><%=blog.body || 'No description available' %></p>
-        
-        <div class="flex justify-between items-center">
-          <span class="text-xs text-gray-500">
-              <%= new Date(blog.createdAt).toLocaleDateString("en-IN") %>
-          </span>
-          <a 
-            href="/posts/<%=blog.id %>" 
-            class="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
-          >
-            Read more →
-          </a>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+      <% blogs.forEach(blog => { %>
+      <div
+        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+      >
+        <!-- Image container with fixed aspect ratio (16:9) -->
+        <div class="relative pt-[56.25%] overflow-hidden">
+          <img
+            class="absolute top-0 left-0 w-full h-full object-cover"
+            src="<%=blog.coverImageURL %>"
+            alt="<%=blog.title %>"
+          />
+        </div>
+
+        <!-- Card content -->
+        <div class="p-4">
+          <h3 class="font-bold text-lg mb-2 line-clamp-2"><%=blog.title %></h3>
+          <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+            <%=blog.body || 'No description available' %>
+          </p>
+
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-500">
+              <%= new Date(blog.createdAt).toLocaleString("en-IN", { day:
+              '2-digit', month: '2-digit', year: 'numeric', hour: 'numeric',
+              minute: '2-digit', hour12: true, }) %>
+            </span>
+            <a
+              href="/blog/<%=blog.id %>"
+              class="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+            >
+              Read more →
+            </a>
+          </div>
         </div>
       </div>
+      <% }); %>
     </div>
-  <% }); %>
-</div>
   </body>
 </html>
