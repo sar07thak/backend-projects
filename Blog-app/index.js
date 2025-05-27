@@ -3,8 +3,14 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 
 const userRouter = require("./routes/userRoute");
+const blogRouter = require("./routes/blog");
+
+const Blog = require("./models/BlogSchema");
+
 const main = require("./database/database");
-const { checkForAuthenticationCookie } = require("./middlewares/authentication");
+const {
+  checkForAuthenticationCookie,
+} = require("./middlewares/authentication");
 
 const app = express();
 
@@ -17,15 +23,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser()); // Must be before auth middleware
 app.use(checkForAuthenticationCookie("token")); // Sets req.user if token is valid
+app.use(express.static(path.resolve('./public')));
 
 // ✅ Routes
 app.use("/user", userRouter);
+app.use("/blog", blogRouter);
 
 // ✅ Home route
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   try {
+    const allBlogs = await Blog.find({});
     res.status(200).render("Home", {
-      user: req.user , // Pass user data to EJS
+      user: req.user, // Pass user data to EJS
+      blogs: allBlogs,
     });
   } catch (err) {
     res.status(404).send("Error: " + err.message);
