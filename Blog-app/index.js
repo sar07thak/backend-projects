@@ -36,8 +36,8 @@ app.get("/", async (req, res) => {
   try {
     const allBlogs = await Blog.find({});
     res.status(200).render("Home", {
-      user: req.user, // Pass user data to EJS
-      blogs: allBlogs,
+      user: req.user, // 👈 Pass user data to EJS that user which i signin using email and password
+      blogs: allBlogs, // 👈 all blog entries from DB
     });
   } catch (err) {
     res.status(404).send("Error: " + err.message);
