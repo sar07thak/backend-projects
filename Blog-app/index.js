@@ -36,6 +36,7 @@ app.get("/", async (req, res) => {
   try {
     const allBlogs = await Blog.find({});
     res.status(200).render("Home", {
+      //* req.user includes the things which present in  a token 
       user: req.user, // 👈 Pass user data to EJS that user which i signin using email and password
       blogs: allBlogs, // 👈 all blog entries from DB
     });

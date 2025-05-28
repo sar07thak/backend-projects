@@ -48,14 +48,14 @@ blogRouter.post("/add-new", upload.single("coverImage"), async (req, res) => {
 
 blogRouter.get("/:_id", async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params._id).populate("createdBy"); // ? here we find the blog with id 
-    console.log("Blog" , blog );
+    const blog = await Blog.findById(req.params._id).populate("createdBy"); // ? here we find the blog with id
+    console.log("Blog", blog);
     if (!blog) {
       return res.status(404).send("Blog not found");
     }
     res.render("blogView", {
       blog,
-      user: req.user,
+      user: req.user, //* req.user includes the things which present in  a token 
     });
   } catch (error) {
     console.error("Error fetching blog:", error.message);
@@ -65,15 +65,24 @@ blogRouter.get("/:_id", async (req, res) => {
 
 blogRouter.delete("/:_id", async (req, res) => {
   try {
-    const dltBlog = await Blog.findByIdAndDelete(req.params._id);
+    const blog = await Blog.findById(req.params._id);
 
+    if (!blog) {
+      return res.status(404).send("Blog not found");
+    }
+
+    // ✅ Ownership Check
+    if (blog.createdBy.toString() !== req.user._id) {
+      return res.status(403).send("Unauthorized to delete this blog");
+    }
+
+    // Now it's safe to delete
+    await blog.deleteOne(); // or Blog.findByIdAndDelete(blog._id)
     res.status(200).redirect("/");
   } catch (err) {
-    console.error("Error fetching blog:", +  error.message);
+    console.error("Error deleting blog:", err.message);
     res.status(500).send("Internal Server Error");
   }
 });
-
-
 
 module.exports = blogRouter;

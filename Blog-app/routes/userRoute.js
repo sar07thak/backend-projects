@@ -25,18 +25,18 @@ userRouter.post("/signup", async (req, res) => {
 
     // *for hashing a password
     req.body.password = await bcrypt.hash(req.body.password, 10);
-    
+
     await user.create({
       fullName: req.body.fullName,
       email: req.body.email,
       password: req.body.password,
     });
     console.log(req.body); // * print like this 👇
-//     {
-//   fullName: 'abhishek',
-//   email: 'abhi23@gmail.com',
-//   password: '$2b$10$niTbBQIRiEReNPVQ1HdyRODh.Ya7JA6oHEZWlD70V3r1p4eqtcurO'
-//     }
+    //     {
+    //   fullName: 'abhishek',
+    //   email: 'abhi23@gmail.com',
+    //   password: '$2b$10$niTbBQIRiEReNPVQ1HdyRODh.Ya7JA6oHEZWlD70V3r1p4eqtcurO'
+    //     }
     res.status(200).redirect("/");
   } catch (err) {
     res.status(404).send("Error : " + err.message);
@@ -52,7 +52,7 @@ userRouter.post("/signin", async (req, res) => {
     if (!checkPass) throw new Error("invalid password");
 
     const token = createToken(existingUser);
-    console.log(token);  // ! for printing a token
+    console.log(token); // ! for printing a token
     // res.cookie("token", token);
 
     res.status(200).cookie("token", token).redirect("/");

@@ -18,6 +18,7 @@
         <% if ( locals.user) { %>
         <a href="/blog/add-new" class="hover:text-gray-300">Add-Blog</a>
         <a href="/user/logout" class="hover:text-gray-300">Log-Out</a>
+        <span> <%= user.fullName %> </span>
 
         <% } else { %>
         <a href="/user/signup" class="hover:text-gray-300">Create Account </a>
